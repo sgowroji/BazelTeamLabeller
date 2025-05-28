@@ -160,7 +160,7 @@ Body Description: {github_issue_description}
 def main():
     """Main function to run the label prediction locally."""
     # 1.  Load API Key
-    api_key = "AIzaSyDHIQAd-o7VKeDzfFwxZ66U3zaC3wWFWHM"
+    api_key = "Replace with Gemini API key"
     if not api_key:
         print("Error: Gemini API key is missing.  Set the GEMINI_API_KEY environment variable or create config.json.")
         return  # Exit if no API key
