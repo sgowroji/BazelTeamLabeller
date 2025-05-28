@@ -1,0 +1,11 @@
+runtime: python310  # Or a suitable Python 3 runtime
+service: bazel-triage-bot
+# Entry point for your application
+# entrypoint: gunicorn -b :$PORT --timeout 60 main:app
+# Environment variables (if any)
+env_variables:
+   GEMINI_API_KEY: "AIzaSyDHIQAd-o7VKeDzfFwxZ66U3zaC3wWFWHM"
+# Handlers define the routes for your application
+handlers:
+- url: /.*
+  script: auto
