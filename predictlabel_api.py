@@ -6,7 +6,7 @@ from flask import Flask, request, jsonify
 app = Flask(__name__)
 
 # Configure Gemini API key (securely store this)
-os.environ["GEMINI_API_KEY"] = "AIzaSyDHIQAd-o7VKeDzfFwxZ66U3zaC3wWFWHM"  # Or read from a file
+os.environ["GEMINI_API_KEY"] = "Replace with Gemini API key"  # Or read from a file
 genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
 # PDF File path (make sure it's accessible to your Flask app)
 PDF_FILE_PATH = "Teamlabels.pdf"
