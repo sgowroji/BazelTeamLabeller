@@ -81,64 +81,46 @@ def predict_team_label(pdf_uri, github_issue_title, github_issue_description):
 
 {label_list_string}
 
-**Triaging Instructions & Decision Process:**
-1.  **Understand the Issue's Core Subject:**
-    *   Carefully read the GitHub issue title and body to identify the **user's primary problem, request, or question.**
-    *   **URL Analysis (Important):**
-        *   If URLs are present, examine the surrounding text to understand their **purpose and context.**
-        *   A URL might point to:
-            *   A code snippet or a specific file/commit (often related to a `bug` or `refactor`).
-            *   An error log or a failing CI run (often related to a `bug` or test failure label).
-            *   An external documentation page (which could be for context of expected behavior for a `bug`, a source for a `feature_request`, or the subject of a `documentation` issue if the problem *is with that documentation*).
-            *   A related issue, a forum discussion, or other external resources.
-        *   **Crucially, the mere presence of a URL (even to a documentation site) does NOT automatically mean the issue's primary purpose is "documentation". The issue's *main subject matter and the user's intent* dictate the label.** For example, if a user links to documentation to show how a feature *should* work but reports it's broken, it's likely a `bug`, not `documentation`.
-
-2.  **Consult Label Definitions:** Review the "Allowed Labels & Their Definitions" above. Pay close attention to the precise meaning of each.
-3.  **Determine Primary Focus & Intent:**
-    *   Based on the core subject identified in step 1, determine the *primary nature* of the issue.
-    *   Is the user reporting something functionally broken, an unexpected error, or incorrect behavior in the software? (Likely `bug`).
-    *   Is the user suggesting new functionality or an enhancement to existing software features? (Likely `feature_request`).
-    *   Is the **main topic of the issue itself an error in, or a request to improve/create, official project documentation** (e.g., a typo in a guide, a request for a new tutorial)? (Only then is it likely `documentation`).
-    *   Is the user primarily asking for help, clarification, or how to use something? (Likely `question`).
-    *   (Adapt these guiding questions based on your specific labels and their definitions).
-4.  **Select Best Fit Label:** Choose the SINGLE label from the "Allowed Labels" list whose definition most accurately and comprehensively describes this primary nature and intent.
-5.  **No Perfect Fit - Closest Match:** If no single label perfectly describes the issue, select the one whose definition is the *closest and most relevant match* to the dominant aspect of the issue. Do not invent new labels or combine labels.
-6.  **Output Requirement:** Your response MUST be ONLY the selected label name. Do not include any other text, explanations, or formatting.
-
-**Examples:**
-Issue Title: '[bazel.build] Building the tutorial app in /start/android-app fails'
-Issue Body: '### Page link: https://bazel.build/start/android-app ### Problem description: When I try to build I get an error: $ bazel build //src/main:app ERROR: Traceback (most recent call last): File \'C:/src/learnbazel/examples-main/android/tutorial/src/main/BUILD\', line 1, column 15, in <toplevel> android_binary( Error in android_binary: Couldn't auto load 'android_binary' from '@rules_android//rules:rules.bzl'. Ensure that you have a 'bazel_dep(name = \'rules_android\', ...)' in your MODULE.bazel file...'
-Predicted Label: team-Android
-
-Issue Title: 'Where is the error log?'
-Issue Body: '### Description of the bug: When I use `bazel build //... -c opt --jobs 8 --sandbox_debug` to compile a repository, it just says \'bazel FAILED: Build did NOT complete successfully\'. But there are no more error messages. Where can I find the log that locates the error? ### Which category does this issue belong to? Configurability'
-Predicted Label: team-Bazel
-
-Issue Title: '[8.1.0] Fix docs link rewriting for rules_android'
-Issue Body: 'Fixes https://github.com/bazelbuild/bazel/issues/24905 RELNOTES: None PiperOrigin-RevId: 717532897...'
-Predicted Label: team-Android
-
-Issue Title: 'Bzlmod: Unable to resolve dependency @my_external_repo//:lib'
-Issue Body: 'After migrating to Bzlmod, my build fails with an error indicating it cannot find `@my_external_repo//:lib`. My MODULE.bazel file includes `bazel_dep(name = \'my_external_repo\', version = \'1.2.3\')`. The remote repository exists and is accessible. Previously, this worked with a `http_archive` rule in WORKSPACE.'
-Predicted Label: team-ExternalDeps
-
-Issue Title: '[8.2.0] Fix encoding of Starlark source lines in error messages'
-Issue Body: 'Closes #25327. PiperOrigin-RevId: 736919575 Change-Id: I008207f53b9464f69fff3be81862f5d3f3a0f15d Commit...'
-Predicted Label: team-Core
-
-Issue Title: 'Feature Request: Expose new 'ToolchainInfoSubprovider' in Starlark Rule Definition API'
-Issue Body: 'When writing custom rules that interact heavily with toolchains, the current `ToolchainInfo` provider is too opaque. We need a sub-provider, say `ToolchainInfoSubprovider`, that gives access to the resolved tool paths and configuration fragments. This would allow rules to more dynamically configure actions based on the selected toolchain. This affects how `provides` and `ctx.attr.toolchain_type` are used.'
-Predicted Label: team-Rules-API
-
----
+Team labels and their definitions:
+----------------------------------
+●  team-Android: Issues for Android team 
+●  team-Bazel: General Bazel product/strategy issues 
+●  team-CLI: Console UI 
+●  team-Configurability: Issues for Configurability team. Includes: Core build 
+configuration and transition system. Does not include: Changes to new or 
+existing flags 
+●  team-Core: Skyframe, bazel query, BEP, options parsing, bazelrc 
+●  team-Documentation: Issues for Documentation team 
+●  team-ExternalDeps: External dependency handling, Bzlmod, remote 
+repositories, WORKSPACE file 
+●  team-Loading-API: BUILD file and macro processing: labels, package(), 
+visibility, glob 
+●  team-Local-Exec: Issues for Execution (Local) team 
+●  team-OSS: Issues for Bazel OSS team: installation, release process, Bazel 
+packaging, website, docs infrastructure 
+●  team-Performance: Issues for Bazel Performance team 
+●  team-Remote-Exec: Issues for Execution (Remote) team 
+●  team-Rules-API: API for writing rules/aspects: providers, runfiles, actions, 
+artifacts 
+●  team-Rules-CPP / team-Rules-ObjC: Issues for C++/Objective-C rules, 
+including native Apple rule logic 
+●  team-Rules-Java: Issues for Java rules 
+●  team-Rules-Python: Issues for the native Python rules 
+●  team-Rules-Server: Issues for server-side rules included with Bazel 
+●  team-Starlark-Integration: Non-API Bazel + Starlark integration. Includes: 
+how Bazel triggers the Starlark interpreter, Stardoc, builtins injection, character 
+encoding. Does not include: BUILD or .bzl language issues. 
+●  team-Starlark-Interpreter: Issues for the Starlark interpreter (anything in 
+java.net.starlark). BUILD and .bzl API issues (which represent Bazel's integration 
+with Starlark) go in team-Build-Language 
+ 
 **GitHub Issue to Triage:**
 
 Title: {github_issue_title}
 Body Description: {github_issue_description}
 
 **Predicted Label:**
-    """,
-        pdf_uri,  # In the local version, this is a file path.
+    """  
     ]
     print("Prompt:", prompt)  # Keep the prompt printing for local debugging
 
@@ -160,7 +142,7 @@ Body Description: {github_issue_description}
 def main():
     """Main function to run the label prediction locally."""
     # 1.  Load API Key
-    api_key = "Replace with Gemini API key"
+    api_key = "AIzaSyDHIQAd-o7VKeDzfFwxZ66U3zaC3wWFWHM"
     if not api_key:
         print("Error: Gemini API key is missing.  Set the GEMINI_API_KEY environment variable or create config.json.")
         return  # Exit if no API key
